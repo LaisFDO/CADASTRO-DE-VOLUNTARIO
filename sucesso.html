@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Confirmado - Defesa Civil do Amazonas</title>
+    
+    <meta name="theme-color" content="#0F172A">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=League+Spartan:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        .success-page {
+            height: 100vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: var(--primary-dark);
+        }
+        .success-page .hero-bg {
+            transform: scale(1.05);
+            filter: blur(8px);
+        }
+        .success-page .hero-overlay {
+            background: linear-gradient(135deg, rgba(15,23,42,0.85) 0%, rgba(30,58,138,0.7) 100%);
+        }
+        .success-container {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            padding: 56px 40px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.5);
+            max-width: 640px;
+            width: 90%;
+            text-align: center;
+            animation: containerReveal 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+            opacity: 0;
+            transform: translateY(40px) scale(0.95);
+        }
+        @keyframes containerReveal {
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .success-icon-wrap {
+            width: 96px;
+            height: 96px;
+            margin: 0 auto 32px;
+            color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+            animation: pulseGlow 2s infinite ease-in-out;
+        }
+        .success-icon-wrap .animated-check {
+            width: 50px;
+            height: 50px;
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .success-title {
+            font-family: var(--font-heading);
+            font-size: 2.75rem;
+            color: var(--primary-dark);
+            margin-bottom: 16px;
+            line-height: 1.1;
+            letter-spacing: -1px;
+        }
+        .success-desc {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            line-height: 1.6;
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .success-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 1.125rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .btn-outline:hover {
+            background: rgba(30, 58, 138, 0.05);
+            transform: translateY(-2px);
+        }
+        
+        @media(max-width: 600px) {
+            .success-title { font-size: 2.25rem; }
+            .success-container { padding: 40px 24px; }
+            .success-buttons { flex-direction: column; }
+            .cta-button, .btn-outline { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="success-page">
+        <!-- Reusing the hero background for consistency -->
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        
+        <div class="success-container">
+            <div class="hero-logo" style="justify-content: center; margin-bottom: 24px; gap: 12px;">
+                <img src="logo-defesa.png" alt="Defesa Civil" class="hero-logo-img" style="height: 64px;">
+            </div>
+            
+            <div class="success-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" class="animated-check">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                    <path d="M8 12.5L11 15.5L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-path"/>
+                </svg>
+            </div>
+            
+            <h1 class="success-title">Cadastro Concluído!</h1>
+            <p class="success-desc">
+                A Defesa Civil do Amazonas agradece profundamente o seu interesse de servir a nossa sociedade. Seus dados foram cadastrados e logo nossa equipe entrará em contato.
+            </p>
+            
+            <div class="success-buttons">
+                <a href="index.html" class="cta-button" style="text-decoration: none;">
+                    Voltar ao Início
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script to animate SVG slightly delayed -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const circle = document.querySelector('.animated-check circle');
+            const path = document.querySelector('.animated-check path');
+            
+            circle.style.animation = 'dash 0.6s ease-out forwards 0.4s';
+            path.style.animation = 'dash 0.4s ease-out forwards 0.8s';
+        });
+    </script>
+</body>
+</html>
