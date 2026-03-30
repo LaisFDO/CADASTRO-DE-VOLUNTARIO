@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Voluntários - Defesa Civil do Amazonas</title>
+    <title id="pageTitle">Cadastro de Voluntários - Defesa Civil do Amazonas</title>
 
     <!-- Meta SEO & Theme -->
     <meta name="description"
@@ -42,26 +42,43 @@
                 <img src="logo-defesa.png" alt="Defesa Civil Amazonas" class="hero-logo-img">
                 <span class="logo-text">Defesa Civil Amazonas</span>
             </div>
-            <h1 class="hero-title">
+            <h1 class="hero-title" id="mainHeroTitle">
                 <span class="highlight">Faça parte,</span><br>
-                seja um voluntário.
+                <span id="dynamicHeroSubtitle">seja um voluntário.</span>
             </h1>
             <p class="hero-subtitle">Ajude a Defesa Civil a salvar vidas.</p>
-            <button class="cta-button" id="ctaBtn">
-                Realize seu cadastro
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-            </button>
+            <div class="cta-container">
+                <button class="cta-button primary" id="btnPF">
+                    Sou voluntário (Pessoa Física)
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </button>
+                <button class="cta-button secondary" id="btnPJ">
+                    Sou organização / empresa
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+                        <path d="M9 22v-4h6v4"></path>
+                        <path d="M8 6h.01"></path>
+                        <path d="M16 6h.01"></path>
+                        <path d="M12 6h.01"></path>
+                        <path d="M12 10h.01"></path>
+                        <path d="M12 14h.01"></path>
+                        <path d="M16 10h.01"></path>
+                        <path d="M16 14h.01"></path>
+                        <path d="M8 10h.01"></path>
+                        <path d="M8 14h.01"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
     </section>
 
     <!-- Main Content -->
     <main class="main-content" id="formSection">
-        <div class="container">
-            <form id="volunteerForm" class="volunteer-form" onsubmit="event.preventDefault(); submitForm();">
+        <div class="container" id="formsContainer" style="position: relative;">
+            <form id="volunteerForm" class="volunteer-form pf-form" onsubmit="event.preventDefault(); submitForm();">
 
                 <!-- Section 1: Dados Pessoais -->
                 <div class="form-card" id="card1">
@@ -395,7 +412,7 @@
                 </div>
 
                 <!-- Section 6: Eixos de Atuação -->
-                <div class="form-card" id="card6" style="margin-bottom: 80px;">
+                <div class="form-card" id="card6">
                     <h2 class="card-title">6. Eixos de Atuação</h2>
                     <p class="section-desc">Selecione os eixos principais da Defesa Civil com os quais você tem maior
                         afinidade:</p>
@@ -424,6 +441,200 @@
                     </div>
                 </div>
 
+                <!-- LGPD Consent -->
+                <div class="form-card lgpd-card" style="margin-bottom: 80px; padding: 32px;">
+                    <div class="lgpd-compact-header">
+                        <button type="button" class="btn-link lgpd-trigger" aria-haspopup="dialog" aria-expanded="false">Ler Termo de Consentimento – LGPD</button>
+                    </div>
+                    <div class="lgpd-checkbox-container">
+                        <label class="checkbox-item lgpd-checkbox-label">
+                            <input type="checkbox" id="lgpd_consent_pf" name="lgpd_consent" required> 
+                            <span class="lgpd-checkbox-text">Declaro que li e concordo com o Termo de Consentimento e com o tratamento dos meus dados pessoais nos termos da LGPD.</span>
+                        </label>
+                    </div>
+                </div>
+
+            </form>
+
+            <form id="organizationForm" class="volunteer-form pj-form" onsubmit="event.preventDefault(); submitForm();" style="display: none; opacity: 0; pointer-events: none; position: absolute; top: 0; left: 0; width: 100%;">
+                <!-- Section 1: Dados da Organização -->
+                <div class="form-card pj-card">
+                    <h2 class="card-title">1. Dados da Organização</h2>
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <input type="text" id="razao_social" required placeholder=" ">
+                            <label for="razao_social">Razão Social</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="nome_fantasia" required placeholder=" ">
+                            <label for="nome_fantasia">Nome Fantasia</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="cnpj" required placeholder=" " maxlength="18">
+                            <label for="cnpj">CNPJ</label>
+                        </div>
+                        <div class="input-group select-group">
+                            <select id="tipo_organizacao" required onchange="toggleOutrosInput(this, 'tipo_org_esp_container')">
+                                <option value="" disabled selected></option>
+                                <option value="empresa">Empresa</option>
+                                <option value="ong">ONG</option>
+                                <option value="instituicao_publica">Instituição Pública</option>
+                                <option value="associacao">Associação</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                            <label class="active" for="tipo_organizacao">Tipo</label>
+                        </div>
+                        <div class="input-group" id="tipo_org_esp_container" style="display: none; grid-column: span 2;">
+                            <input type="text" id="tipo_org_especifico" placeholder=" ">
+                            <label for="tipo_org_especifico">Especifique o tipo de organização</label>
+                        </div>
+                        <div class="input-group select-group" style="grid-column: span 2;">
+                            <select id="area_atuacao_pj" required onchange="toggleOutrosInput(this, 'area_atuacao_esp_container')">
+                                <option value="" disabled selected></option>
+                                <option value="saude">Saúde</option>
+                                <option value="logistica">Logística</option>
+                                <option value="alimentacao">Alimentação</option>
+                                <option value="educacao">Educação</option>
+                                <option value="tecnologia">Tecnologia</option>
+                                <option value="meio_ambiente">Meio Ambiente</option>
+                                <option value="outros">Outros</option>
+                            </select>
+                            <label class="active" for="area_atuacao_pj">Área de atuação principal</label>
+                        </div>
+                        <div class="input-group" id="area_atuacao_esp_container" style="display: none; grid-column: span 2;">
+                            <input type="text" id="area_atuacao_especifica" placeholder=" ">
+                            <label for="area_atuacao_especifica">Especifique a área de atuação</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Endereço -->
+                <div class="form-card pj-card">
+                    <h2 class="card-title">2. Endereço</h2>
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <input type="text" id="cep_pj" required placeholder=" ">
+                            <label for="cep_pj">CEP</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="cidade_pj" required placeholder=" ">
+                            <label for="cidade_pj">Cidade</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="estado_pj" required placeholder=" ">
+                            <label for="estado_pj">Estado</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="bairro_pj" required placeholder=" ">
+                            <label for="bairro_pj">Bairro</label>
+                        </div>
+                        <div class="input-group" style="grid-column: span 2;">
+                            <input type="text" id="endereco_pj" required placeholder=" ">
+                            <label for="endereco_pj">Endereço (Rua, Av)</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="numero_pj" required placeholder=" ">
+                            <label for="numero_pj">Número</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="complemento_pj" placeholder=" ">
+                            <label for="complemento_pj">Complemento</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Contato Responsável -->
+                <div class="form-card pj-card">
+                    <h2 class="card-title">3. Contato Responsável</h2>
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <input type="text" id="nome_resp" required placeholder=" ">
+                            <label for="nome_resp">Nome do Responsável</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="cargo_resp" required placeholder=" ">
+                            <label for="cargo_resp">Cargo</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="tel" id="telefone_resp" required placeholder=" ">
+                            <label for="telefone_resp">Telefone</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="email" id="email_resp" required placeholder=" ">
+                            <label for="email_resp">Email</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Tipo de Apoio -->
+                <div class="form-card pj-card">
+                    <h2 class="card-title">4. Tipo de Apoio</h2>
+                    <p class="section-desc">Como sua organização pode contribuir?</p>
+                    <div class="checkbox-grid large">
+                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Doações"> Doações</label>
+                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Logística"> Logística</label>
+                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Transporte"> Transporte</label>
+                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Voluntários"> Voluntários</label>
+                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Financeiro"> Financeiro</label>
+                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Infraestrutura"> Infraestrutura</label>
+                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Serviços"> Serviços</label>
+                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Outros" onchange="toggleOutrosCheckboxPj(this, 'apoio_pj_esp_container')"> Outros</label>
+                    </div>
+                    <div class="input-group" id="apoio_pj_esp_container" style="display: none; margin-top: 16px;">
+                        <input type="text" id="apoio_pj_especifico" placeholder=" ">
+                        <label for="apoio_pj_especifico">Descreva o tipo de apoio</label>
+                    </div>
+                </div>
+
+                <!-- Section 5: Capacidade & Complementar -->
+                <div class="form-card pj-card">
+                    <h2 class="card-title">5. Capacidade e Informações Complementares</h2>
+                    <div class="form-grid" style="margin-bottom: 32px;">
+                        <div class="input-group">
+                            <input type="number" id="pessoas_atendidas" placeholder=" ">
+                            <label for="pessoas_atendidas">Pessoas atendidas por ação</label>
+                        </div>
+                        <div class="input-group select-group">
+                            <select id="frequencia_apoio" required>
+                                <option value="" disabled selected></option>
+                                <option value="pontual">Pontual</option>
+                                <option value="recorrente">Recorrente</option>
+                            </select>
+                            <label class="active" for="frequencia_apoio">Frequência</label>
+                        </div>
+                        <div class="radio-group" style="grid-column: span 2;">
+                            <span class="radio-label">Experiência com ações sociais prévias?</span>
+                            <label><input type="radio" name="exp_social" value="sim" required> Sim</label>
+                            <label><input type="radio" name="exp_social" value="nao"> Não</label>
+                        </div>
+                    </div>
+
+                    <div class="input-group" style="margin-bottom: 24px;">
+                        <textarea id="desc_org" required placeholder=" " rows="3"></textarea>
+                        <label for="desc_org">Descrição da organização</label>
+                    </div>
+                    <div class="input-group" style="margin-bottom: 24px;">
+                        <textarea id="como_contribuir" required placeholder=" " rows="3"></textarea>
+                        <label for="como_contribuir">Como deseja contribuir detalhadamente?</label>
+                    </div>
+                    <div class="input-group">
+                        <textarea id="projetos_anteriores" placeholder=" " rows="3"></textarea>
+                        <label for="projetos_anteriores">Projetos anteriores (Opcional)</label>
+                    </div>
+                </div>
+
+                <!-- LGPD Consent -->
+                <div class="form-card lgpd-card" style="margin-bottom: 80px; padding: 32px;">
+                    <div class="lgpd-compact-header">
+                        <button type="button" class="btn-link lgpd-trigger" aria-haspopup="dialog" aria-expanded="false">Ler Termo de Consentimento – LGPD</button>
+                    </div>
+                    <div class="lgpd-checkbox-container">
+                        <label class="checkbox-item lgpd-checkbox-label">
+                            <input type="checkbox" id="lgpd_consent_pj" name="lgpd_consent" required> 
+                            <span class="lgpd-checkbox-text">Declaro que li e concordo com o Termo de Consentimento e com o tratamento dos meus dados pessoais nos termos da LGPD.</span>
+                        </label>
+                    </div>
+                </div>
             </form>
         </div>
     </main>
@@ -436,6 +647,24 @@
                 Enviar Cadastro
                 <span class="loader" id="btnLoader" style="display: none;"></span>
             </button>
+        </div>
+    </div>
+
+    <!-- LGPD Modal -->
+    <div class="modal-overlay" id="lgpdModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="lgpdModalTitle">
+        <div class="modal-card">
+            <button type="button" class="modal-close-btn" id="closeLgpdBtn" aria-label="Fechar modal">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <h2 id="lgpdModalTitle">Termo de Consentimento – LGPD</h2>
+            <div class="modal-content">
+                <p>Em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018 – LGPD), informamos que os dados pessoais fornecidos neste formulário serão utilizados para fins de cadastro, organização e eventual acionamento de voluntários em ações relacionadas à defesa civil, incluindo situações de emergência e apoio à população.</p>
+                <p>O tratamento dos dados será realizado com responsabilidade, segurança e respeito à sua privacidade, sendo utilizados exclusivamente para as finalidades aqui descritas.</p>
+                <p>Ao enviar este formulário, você declara estar ciente e de acordo com o tratamento dos seus dados pessoais nos termos da LGPD.</p>
+            </div>
         </div>
     </div>
 

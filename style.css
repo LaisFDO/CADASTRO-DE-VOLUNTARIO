@@ -140,9 +140,23 @@ html.lenis {
     margin-bottom: 40px;
     max-width: 500px;
 }
+.cta-container {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+@media (max-width: 640px) {
+    .cta-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .cta-container .cta-button { 
+        width: 100%; 
+        justify-content: center; 
+    }
+}
+
 .cta-button {
-    background: var(--accent-orange);
-    color: var(--white);
     border: none;
     padding: 16px 32px;
     border-radius: 8px;
@@ -152,13 +166,31 @@ html.lenis {
     cursor: pointer;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 12px;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 4px 6px rgba(249, 115, 22, 0.2);
 }
 .cta-button:hover {
     transform: translateY(-4px) scale(1.02);
+}
+.cta-button.primary {
+    background: var(--accent-orange);
+    color: var(--white);
+    box-shadow: 0 4px 6px rgba(249, 115, 22, 0.2);
+}
+.cta-button.primary:hover {
     box-shadow: var(--shadow-glow);
+}
+.cta-button.secondary {
+    background: transparent;
+    color: var(--white);
+    border: 2px solid var(--primary-blue);
+    backdrop-filter: blur(8px);
+    padding: 14px 30px; /* adjust for border */
+}
+.cta-button.secondary:hover {
+    background: var(--primary-blue);
+    box-shadow: 0 0 15px rgba(30, 58, 138, 0.4);
 }
 .cta-button svg {
     transition: transform 0.3s ease;
@@ -533,4 +565,164 @@ input[type="radio"], input[type="checkbox"] {
     }
     .submit-btn { width: 100%; justify-content: center; }
     .form-card { padding: 24px; }
+}
+
+.lgpd-card {
+    border: 2px solid rgba(30, 58, 138, 0.2);
+    background: rgba(241, 245, 249, 0.95);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
+    transition: all 0.4s ease;
+}
+.lgpd-card:has(input[type="checkbox"]:checked) {
+    border-color: var(--success);
+    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.15);
+}
+.lgpd-card:has(input[type="checkbox"]:checked) .btn-link.lgpd-trigger {
+    color: var(--success);
+}
+.lgpd-compact-header {
+    margin-bottom: 24px;
+}
+.btn-link.lgpd-trigger {
+    background: transparent;
+    border: none;
+    color: var(--primary-blue);
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 4px 0;
+    transition: color 0.3s ease;
+}
+.btn-link.lgpd-trigger:hover,
+.btn-link.lgpd-trigger:focus {
+    color: var(--accent-orange);
+    outline: none;
+}
+
+/* Modal Styling */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(8px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+.modal-card {
+    background: var(--white);
+    padding: 40px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 640px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    transform: scale(0.95) translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+}
+.modal-overlay.active .modal-card {
+    transform: scale(1) translateY(0);
+}
+.modal-close-btn {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: rgba(15, 23, 42, 0.05);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.modal-close-btn:hover {
+    color: var(--white);
+    background: var(--error);
+    transform: rotate(90deg);
+}
+#lgpdModalTitle {
+    font-family: var(--font-heading);
+    color: var(--primary-blue);
+    font-size: 1.75rem;
+    margin-bottom: 24px;
+    padding-right: 48px;
+}
+.modal-content p {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--text-primary);
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+.modal-content p:last-child {
+    margin-bottom: 0;
+    font-weight: 500;
+    color: var(--primary-dark);
+}
+.lgpd-checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    padding: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--white);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.lgpd-checkbox-label input[type="checkbox"] {
+    margin-top: 4px;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    accent-color: var(--primary-blue);
+    transition: accent-color 0.3s ease;
+}
+.lgpd-checkbox-label:hover:not(:has(input:checked)) {
+    border-color: var(--primary-blue);
+    background: rgba(30, 58, 138, 0.02);
+    box-shadow: 0 0 10px rgba(30, 58, 138, 0.1);
+}
+.lgpd-checkbox-label:has(input:checked) {
+    border-color: var(--success);
+    background: rgba(16, 185, 129, 0.05);
+}
+.lgpd-checkbox-label:hover:has(input:checked) {
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+}
+.lgpd-card:has(input[type="checkbox"]:checked) input[type="checkbox"] {
+    accent-color: var(--success);
+}
+.lgpd-checkbox-text {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    transition: color 0.3s ease;
+}
+
+.submit-btn.visually-disabled {
+    background: var(--text-secondary);
+    cursor: pointer;
+    box-shadow: none;
+    opacity: 0.8;
+}
+.submit-btn.visually-disabled:hover {
+    transform: none;
+    box-shadow: none;
+    background: var(--text-secondary);
 }

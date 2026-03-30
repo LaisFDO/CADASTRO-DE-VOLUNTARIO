@@ -81,10 +81,58 @@ function toggleFormacaoExtra(value) {
             gsap.to(container, {height: 0, opacity: 0, duration: 0.3, onComplete: () => {
                 container.style.display = 'none';
                 input.required = false;
+                input.value = '';
             }});
         }
     }
 }
+
+function toggleOutrosInput(selectElement, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const input = container.querySelector('input');
+    const value = selectElement.value.toLowerCase();
+    
+    if (value === 'outros' || value === 'outro') {
+        container.style.display = 'block';
+        input.required = true;
+        gsap.fromTo(container, {height: 0, opacity: 0, y: -10}, {height: 'auto', opacity: 1, y: 0, duration: 0.3, ease: 'power2.out'});
+    } else {
+        if(container.style.display === 'block') {
+            gsap.to(container, {height: 0, opacity: 0, y: -10, duration: 0.3, ease: 'power2.in', onComplete: () => {
+                container.style.display = 'none';
+                input.required = false;
+                input.value = '';
+                // trigger change to valid progress
+                input.dispatchEvent(new Event('change', { bubbles: true }));
+            }});
+        }
+    }
+}
+
+function toggleOutrosCheckboxPj(checkboxElement, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const input = container.querySelector('input');
+    
+    if (checkboxElement.checked) {
+        container.style.display = 'block';
+        input.required = true;
+        gsap.fromTo(container, {height: 0, opacity: 0, y: -10}, {height: 'auto', opacity: 1, y: 0, duration: 0.3, ease: 'power2.out'});
+    } else {
+        if(container.style.display === 'block') {
+            gsap.to(container, {height: 0, opacity: 0, y: -10, duration: 0.3, ease: 'power2.in', onComplete: () => {
+                container.style.display = 'none';
+                input.required = false;
+                input.value = '';
+                // trigger change to valid progress
+                input.dispatchEvent(new Event('change', { bubbles: true }));
+            }});
+        }
+    }
+}
+
+let currentMode = 'pf'; // 'pf' or 'pj'
 
 // Animações
 window.addEventListener("DOMContentLoaded", () => {
@@ -96,10 +144,50 @@ window.addEventListener("DOMContentLoaded", () => {
       .fromTo(".hero-subtitle", {y: 20, opacity: 0}, {y: 0, opacity: 1, duration: 0.8}, "-=1")
       .fromTo(".cta-button", {y: 20, opacity: 0}, {y: 0, opacity: 1, duration: 0.8}, "-=0.8");
 
-    // Click CTA Button - Scroll To Form
-    document.getElementById("ctaBtn").addEventListener("click", () => {
+    // Switching logic PF / PJ
+    function switchFormTo(mode) {
+        if (mode === currentMode) {
+            lenis.scrollTo("#formSection", {offset: -50});
+            return;
+        }
+        
+        const oldForm = document.getElementById(currentMode === 'pf' ? 'volunteerForm' : 'organizationForm');
+        const newForm = document.getElementById(mode === 'pf' ? 'volunteerForm' : 'organizationForm');
+        const dynamicTitle = document.getElementById('dynamicHeroSubtitle');
+        const pageTitle = document.getElementById('pageTitle');
+        
+        currentMode = mode;
+
+        if (mode === 'pf') {
+            dynamicTitle.innerHTML = 'seja um voluntário.';
+            pageTitle.innerText = 'Cadastro de Voluntários - Defesa Civil do Amazonas';
+            document.getElementById('submitBtn').setAttribute('form', 'volunteerForm');
+        } else {
+            dynamicTitle.innerHTML = 'seja uma organização parceira.';
+            pageTitle.innerText = 'Cadastro de Organização Parceira - Defesa Civil do Amazonas';
+            document.getElementById('submitBtn').setAttribute('form', 'organizationForm');
+        }
+
+        gsap.to(oldForm, {opacity: 0, duration: 0.3, onComplete: () => {
+            oldForm.style.display = 'none';
+            oldForm.style.pointerEvents = 'none';
+            oldForm.style.position = 'absolute';
+            
+            newForm.style.display = 'flex';
+            newForm.style.position = 'relative';
+            newForm.style.pointerEvents = 'auto';
+            
+            gsap.fromTo(newForm, {opacity: 0, y: 30}, {opacity: 1, y: 0, duration: 0.5, ease: "power2.out", onComplete: () => {
+                ScrollTrigger.refresh();
+            }});
+        }});
+        
+        monitorProgress();
         lenis.scrollTo("#formSection", {offset: -50});
-    });
+    }
+
+    document.getElementById("btnPF").addEventListener("click", () => switchFormTo('pf'));
+    document.getElementById("btnPJ").addEventListener("click", () => switchFormTo('pj'));
 
     // Efeito Parallax Background
     gsap.to(".hero-bg", {
@@ -151,15 +239,16 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
     // Monitorar preenchimento para texto da barra inferior
-    const formInputs = document.querySelectorAll('#volunteerForm input[required], #volunteerForm select[required], #volunteerForm textarea[required]');
-    const totalRequired = formInputs.length;
-    
     function monitorProgress() {
         let filled = 0;
-        document.querySelectorAll('#volunteerForm input[required], #volunteerForm select[required], #volunteerForm textarea[required]').forEach(input => {
+        const activeFormId = currentMode === 'pf' ? '#volunteerForm' : '#organizationForm';
+        const selectors = `${activeFormId} input[required], ${activeFormId} select[required], ${activeFormId} textarea[required]`;
+        const inputs = document.querySelectorAll(selectors);
+        
+        inputs.forEach(input => {
             if(input.type === 'radio' || input.type === 'checkbox') {
                 const name = input.name;
-                if(document.querySelector(`input[name="${name}"]:checked`)) {
+                if(document.querySelector(`${activeFormId} input[name="${name}"]:checked`)) {
                     filled++;
                 }
             } else if (input.value.trim() !== '') {
@@ -167,20 +256,112 @@ window.addEventListener("DOMContentLoaded", () => {
             }
         });
         
-        // Tratar grupos de radio botões e contagem (simplificação rápida)
-        // Isso apenas dá feedback visual se o formulário parece estar preenchido
         const completionText = document.getElementById("completionText");
-        if(filled > 15) { 
+        
+        if(inputs.length > 0 && filled >= Math.floor(inputs.length * 0.8)) { 
             completionText.textContent = "Quase lá, revise seus dados.";
             completionText.style.color = "var(--primary-blue)";
         } else {
             completionText.textContent = "Preencha os campos para concluir";
             completionText.style.color = "var(--text-secondary)";
         }
+
+        // LGPD State and visual button logic
+        const lgpdCb = document.querySelector(`${activeFormId} input[name="lgpd_consent"]`);
+        const btn = document.getElementById('submitBtn');
+        if (lgpdCb && btn) {
+            if (lgpdCb.checked) {
+                btn.classList.remove('visually-disabled');
+                lgpdCb.setCustomValidity('');
+            } else {
+                btn.classList.add('visually-disabled');
+                lgpdCb.setCustomValidity('Você precisa concordar com o Termo de Consentimento para continuar.');
+            }
+        }
     }
     
     document.getElementById('volunteerForm').addEventListener('change', monitorProgress);
     document.getElementById('volunteerForm').addEventListener('keyup', monitorProgress);
+    document.getElementById('organizationForm').addEventListener('change', monitorProgress);
+    document.getElementById('organizationForm').addEventListener('keyup', monitorProgress);
+    
+    // Initial validation call
+    monitorProgress();
+
+    // LGPD Modal Logic
+    const lgpdModal = document.getElementById('lgpdModal');
+    const closeLgpdBtn = document.getElementById('closeLgpdBtn');
+    const lgpdTriggers = document.querySelectorAll('.lgpd-trigger');
+    let lastActiveElement = null;
+
+    function openLgpdModal(triggerElement) {
+        lastActiveElement = triggerElement;
+        lgpdModal.classList.add('active');
+        lgpdModal.setAttribute('aria-hidden', 'false');
+        triggerElement.setAttribute('aria-expanded', 'true');
+        
+        if (typeof lenis !== 'undefined') lenis.stop();
+        setTimeout(() => closeLgpdBtn.focus(), 50);
+    }
+
+    function closeLgpdModal() {
+        if (!lgpdModal.classList.contains('active')) return;
+        
+        lgpdModal.classList.remove('active');
+        lgpdModal.setAttribute('aria-hidden', 'true');
+        
+        if (lastActiveElement) {
+            lastActiveElement.setAttribute('aria-expanded', 'false');
+            lastActiveElement.focus();
+        }
+        
+        if (typeof lenis !== 'undefined') lenis.start();
+    }
+
+    lgpdTriggers.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openLgpdModal(btn);
+        });
+    });
+
+    if (closeLgpdBtn) {
+        closeLgpdBtn.addEventListener('click', closeLgpdModal);
+    }
+
+    if (lgpdModal) {
+        lgpdModal.addEventListener('click', (e) => {
+            if (e.target === lgpdModal) {
+                closeLgpdModal();
+            }
+        });
+
+        lgpdModal.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                const focusableElements = lgpdModal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                const firstElement = focusableElements[0];
+                const lastElement = focusableElements[focusableElements.length - 1];
+
+                if (e.shiftKey) {
+                    if (document.activeElement === firstElement) {
+                        lastElement.focus();
+                        e.preventDefault();
+                    }
+                } else {
+                    if (document.activeElement === lastElement) {
+                        firstElement.focus();
+                        e.preventDefault();
+                    }
+                }
+            }
+        });
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lgpdModal && lgpdModal.classList.contains('active')) {
+            closeLgpdModal();
+        }
+    });
 
 });
 
