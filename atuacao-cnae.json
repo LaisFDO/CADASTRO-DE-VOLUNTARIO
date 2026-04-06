@@ -1,0 +1,128 @@
+[
+  {
+    "id": 1,
+    "codigo": "A",
+    "nome": "Agropecuária",
+    "descricao": "Agricultura, pecuária, produção florestal, pesca e aquicultura"
+  },
+  {
+    "id": 2,
+    "codigo": "B",
+    "nome": "Indústria Extrativa",
+    "descricao": "Extração de recursos naturais como petróleo, gás e minerais"
+  },
+  {
+    "id": 3,
+    "codigo": "C",
+    "nome": "Indústria de Transformação",
+    "descricao": "Fabricação de produtos industriais em geral"
+  },
+  {
+    "id": 4,
+    "codigo": "D",
+    "nome": "Eletricidade e Gás",
+    "descricao": "Geração e distribuição de energia elétrica e gás"
+  },
+  {
+    "id": 5,
+    "codigo": "E",
+    "nome": "Água, Esgoto e Resíduos",
+    "descricao": "Gestão de água, esgoto e coleta de resíduos"
+  },
+  {
+    "id": 6,
+    "codigo": "F",
+    "nome": "Construção",
+    "descricao": "Construção civil e obras de infraestrutura"
+  },
+  {
+    "id": 7,
+    "codigo": "G",
+    "nome": "Comércio",
+    "descricao": "Comércio atacadista, varejista e reparação de veículos"
+  },
+  {
+    "id": 8,
+    "codigo": "H",
+    "nome": "Transporte e Logística",
+    "descricao": "Transporte terrestre, aéreo, aquaviário e armazenagem"
+  },
+  {
+    "id": 9,
+    "codigo": "I",
+    "nome": "Alojamento e Alimentação",
+    "descricao": "Hotéis, pousadas, bares e restaurantes"
+  },
+  {
+    "id": 10,
+    "codigo": "J",
+    "nome": "Informação e Comunicação",
+    "descricao": "Tecnologia da informação, telecomunicações e mídia"
+  },
+  {
+    "id": 11,
+    "codigo": "K",
+    "nome": "Atividades Financeiras",
+    "descricao": "Bancos, seguros e serviços financeiros"
+  },
+  {
+    "id": 12,
+    "codigo": "L",
+    "nome": "Atividades Imobiliárias",
+    "descricao": "Compra, venda e aluguel de imóveis"
+  },
+  {
+    "id": 13,
+    "codigo": "M",
+    "nome": "Atividades Profissionais e Técnicas",
+    "descricao": "Consultoria, advocacia, engenharia, publicidade e design"
+  },
+  {
+    "id": 14,
+    "codigo": "N",
+    "nome": "Serviços Administrativos",
+    "descricao": "Limpeza, segurança, call center e apoio administrativo"
+  },
+  {
+    "id": 15,
+    "codigo": "O",
+    "nome": "Administração Pública",
+    "descricao": "Órgãos públicos, defesa e seguridade social"
+  },
+  {
+    "id": 16,
+    "codigo": "P",
+    "nome": "Educação",
+    "descricao": "Ensino em todos os níveis e modalidades"
+  },
+  {
+    "id": 17,
+    "codigo": "Q",
+    "nome": "Saúde",
+    "descricao": "Hospitais, clínicas e serviços de saúde"
+  },
+  {
+    "id": 18,
+    "codigo": "R",
+    "nome": "Cultura, Esporte e Lazer",
+    "descricao": "Atividades artísticas, esportivas e recreativas"
+  },
+  {
+    "id": 19,
+    "codigo": "S",
+    "nome": "Outros Serviços",
+    "descricao": "Serviços pessoais, associações e organizações diversas"
+  },
+  {
+    "id": 20,
+    "codigo": "T",
+    "nome": "Serviços Domésticos",
+    "descricao": "Serviços prestados em residências"
+  },
+  {
+    "id": 21,
+    "codigo": "U",
+    "nome": "Organizações Internacionais",
+    "descricao": "Embaixadas, organismos internacionais e instituições extraterritoriais"
+  }
+]

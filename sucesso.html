@@ -1,35 +1,54 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro Confirmado - Defesa Civil do Amazonas</title>
-    
+
     <meta name="theme-color" content="#0F172A">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=League+Spartan:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=League+Spartan:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    
+
     <style>
         .success-page {
-            height: 100vh;
-            min-height: 600px;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            overflow: hidden;
+            overflow-x: hidden;
             background: var(--primary-dark);
+            padding: 40px 0;
+            box-sizing: border-box;
         }
+
         .success-page .hero-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             transform: scale(1.05);
             filter: blur(8px);
+            z-index: 0;
         }
+
         .success-page .hero-overlay {
-            background: linear-gradient(135deg, rgba(15,23,42,0.85) 0%, rgba(30,58,138,0.7) 100%);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 58, 138, 0.7) 100%);
+            z-index: 1;
         }
+
         .success-container {
             position: relative;
             z-index: 10;
@@ -47,8 +66,12 @@
             opacity: 0;
             transform: translateY(40px) scale(0.95);
         }
+
         @keyframes containerReveal {
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .success-icon-wrap {
@@ -64,14 +87,24 @@
             box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
             animation: pulseGlow 2s infinite ease-in-out;
         }
+
         .success-icon-wrap .animated-check {
             width: 50px;
             height: 50px;
         }
+
         @keyframes pulseGlow {
-            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(16, 185, 129, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
         }
 
         .success-title {
@@ -82,6 +115,7 @@
             line-height: 1.1;
             letter-spacing: -1px;
         }
+
         .success-desc {
             font-size: 1.125rem;
             color: var(--text-secondary);
@@ -91,14 +125,14 @@
             margin-left: auto;
             margin-right: auto;
         }
-        
+
         .success-buttons {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 16px;
         }
-        
+
         .btn-outline {
             background: transparent;
             color: var(--primary-blue);
@@ -112,42 +146,313 @@
             text-decoration: none;
             transition: all 0.3s ease;
         }
+
         .btn-outline:hover {
             background: rgba(30, 58, 138, 0.05);
             transform: translateY(-2px);
         }
-        
+
+        .app-promo-card {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 24px;
+            margin: 32px auto 40px;
+            max-width: 480px;
+            text-align: left;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUpPromo 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+            animation-delay: 0.6s;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .app-promo-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(15, 23, 42, 0.08);
+        }
+
+        .app-promo-img {
+            width: 72px;
+            height: auto;
+            flex-shrink: 0;
+            object-fit: contain;
+            filter: drop-shadow(0 8px 12px rgba(15, 23, 42, 0.15));
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .app-promo-card:hover .app-promo-img {
+            transform: translateY(-4px) scale(1.05);
+        }
+
+        .app-promo-content {
+            flex-grow: 1;
+        }
+
+        .app-promo-title {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .app-promo-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .btn-promo {
+            background: var(--primary-dark);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-promo:hover {
+            background: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 40px;
+            width: 90%;
+            max-width: 560px;
+            position: relative;
+            transform: scale(0.95) translateY(20px);
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.4s ease;
+            box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: rgba(15, 23, 42, 0.05);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(15, 23, 42, 0.1);
+            color: var(--primary-dark);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .modal-title {
+            font-family: var(--font-heading);
+            font-size: 1.75rem;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+        }
+
+        .modal-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .modal-qr-container {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        .modal-qr-card {
+            flex: 1;
+            background: rgba(15, 23, 42, 0.02);
+            border-radius: 16px;
+            padding: 24px 16px;
+            text-align: center;
+            border: 1px solid rgba(15, 23, 42, 0.05);
+        }
+
+        .modal-qr-card img {
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 16px;
+            display: block;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .modal-qr-label {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            color: var(--primary-dark);
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .modal-qr-helper {
+            font-size: 0.85rem;
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        .btn-download-now {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 8px 16px;
+            background: rgba(30, 58, 138, 0.08);
+            color: var(--primary-blue);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            width: calc(100% - 32px);
+        }
+
+        .btn-download-now:hover {
+            background: var(--primary-blue);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+        }
+
+        @keyframes fadeUpPromo {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         @media(max-width: 600px) {
-            .success-title { font-size: 2.25rem; }
-            .success-container { padding: 40px 24px; }
-            .success-buttons { flex-direction: column; }
-            .cta-button, .btn-outline { width: 100%; justify-content: center; }
+            .success-title {
+                font-size: 2.25rem;
+            }
+
+            .success-container {
+                padding: 40px 24px;
+            }
+
+            .success-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .cta-button,
+            .btn-outline {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .app-promo-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 32px 24px;
+            }
+
+            .modal-qr-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .modal-qr-card {
+                width: 100%;
+                max-width: 280px;
+            }
+
+            .modal-content {
+                padding: 32px 24px;
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="success-page">
         <!-- Reusing the hero background for consistency -->
         <div class="hero-bg"></div>
         <div class="hero-overlay"></div>
-        
+
         <div class="success-container">
             <div class="hero-logo" style="justify-content: center; margin-bottom: 24px; gap: 12px;">
                 <img src="logo-defesa.png" alt="Defesa Civil" class="hero-logo-img" style="height: 64px;">
             </div>
-            
+
             <div class="success-icon-wrap">
                 <svg viewBox="0 0 24 24" fill="none" class="animated-check">
-                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-                    <path d="M8 12.5L11 15.5L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-path"/>
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                    <path d="M8 12.5L11 15.5L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" class="check-path" />
                 </svg>
             </div>
-            
+
             <h1 class="success-title">Cadastro Concluído!</h1>
             <p class="success-desc">
-                A Defesa Civil do Amazonas agradece profundamente o seu interesse de servir a nossa sociedade. Seus dados foram cadastrados e logo nossa equipe entrará em contato.
+                A Defesa Civil do Amazonas agradece profundamente o seu interesse de servir a nossa sociedade. Seus
+                dados foram cadastrados e logo nossa equipe entrará em contato.
             </p>
-            
+
+            <div class="app-promo-card">
+                <img src="app-mockup.png" alt="Mockup do Aplicativo Cidadão Defesa Civil AM" class="app-promo-img">
+                <div class="app-promo-content">
+                    <h2 class="app-promo-title">Aplicativo Cidadão Defesa Civil AM</h2>
+                    <p class="app-promo-text">Acompanhe informações e prevenção direto no celular.</p>
+                    <button type="button" class="btn-promo" id="openAppModal">Baixar aplicativo</button>
+                </div>
+            </div>
+
             <div class="success-buttons">
                 <a href="index.html" class="cta-button" style="text-decoration: none;">
                     Voltar ao Início
@@ -156,15 +461,81 @@
         </div>
     </div>
 
-    <!-- Script to animate SVG slightly delayed -->
+    <!-- Modal App Promo -->
+    <div class="modal-overlay" id="appModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-content">
+            <button type="button" class="modal-close" id="closeAppModal" aria-label="Fechar modal">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Escolha sua loja</h2>
+                <p class="modal-subtitle">Escaneie o QR Code ou clique no botão abaixo para baixar o aplicativo</p>
+            </div>
+
+            <div class="modal-qr-container">
+                <div class="modal-qr-card">
+                    <div class="modal-qr-label">Google Play</div>
+                    <img src="qr-code_playstore.png" alt="QR Code para baixar na Google Play">
+                    <div class="modal-qr-helper">Android</div>
+                    <a href="#" class="btn-download-now">Baixar agora</a>
+                </div>
+                <div class="modal-qr-card">
+                    <div class="modal-qr-label">App Store</div>
+                    <img src="qr-code_appstore.png" alt="QR Code para baixar na App Store">
+                    <div class="modal-qr-helper">iPhone / iOS</div>
+                    <a href="#" class="btn-download-now">Baixar agora</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script to animate SVG slightly delayed and handle Modal -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const circle = document.querySelector('.animated-check circle');
             const path = document.querySelector('.animated-check path');
-            
-            circle.style.animation = 'dash 0.6s ease-out forwards 0.4s';
-            path.style.animation = 'dash 0.4s ease-out forwards 0.8s';
+
+            if (circle && path) {
+                circle.style.animation = 'dash 0.6s ease-out forwards 0.4s';
+                path.style.animation = 'dash 0.4s ease-out forwards 0.8s';
+            }
+
+            // Modal Logic
+            const openModalBtn = document.getElementById('openAppModal');
+            const closeModalBtn = document.getElementById('closeAppModal');
+            const modalOverlay = document.getElementById('appModal');
+
+            function openModal() {
+                modalOverlay.classList.add('active');
+                closeModalBtn.focus(); // Focus management
+            }
+
+            function closeModal() {
+                modalOverlay.classList.remove('active');
+                openModalBtn.focus(); // Return focus to trigger
+            }
+
+            if (openModalBtn && closeModalBtn && modalOverlay) {
+                openModalBtn.addEventListener('click', openModal);
+                closeModalBtn.addEventListener('click', closeModal);
+
+                modalOverlay.addEventListener('click', (e) => {
+                    if (e.target === modalOverlay) closeModal();
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                        closeModal();
+                    }
+                });
+            }
         });
     </script>
 </body>
+
 </html>

@@ -50,14 +50,16 @@
             <div class="cta-container">
                 <button class="cta-button primary" id="btnPF">
                     Sou voluntário (Pessoa Física)
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                         <circle cx="12" cy="7" r="4"></circle>
                     </svg>
                 </button>
                 <button class="cta-button secondary" id="btnPJ">
                     Sou organização / empresa
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
                         <path d="M9 22v-4h6v4"></path>
                         <path d="M8 6h.01"></path>
@@ -83,6 +85,7 @@
                 <!-- Section 1: Dados Pessoais -->
                 <div class="form-card" id="card1">
                     <h2 class="card-title">1. Dados Pessoais</h2>
+
                     <div class="form-grid">
                         <div class="input-group">
                             <input type="text" id="nome" required placeholder=" ">
@@ -93,8 +96,8 @@
                             <label for="cpf">CPF (somente números)</label>
                         </div>
                         <div class="input-group">
-                            <input type="text" id="rg" required placeholder=" ">
-                            <label for="rg">RG</label>
+                            <input type="text" id="rg" placeholder=" ">
+                            <label for="rg">RG (Opcional)</label>
                         </div>
                         <div class="input-group">
                             <input type="text" id="nacionalidade" required placeholder=" ">
@@ -119,28 +122,63 @@
                             <label class="active" for="sexo">Sexo</label>
                         </div>
                         <div class="input-group select-group">
-                            <select id="estado_civil" required>
+                            <select id="estado_civil" required
+                                onchange="toggleOutrosInput(this, 'estado_civil_esp_container')">
                                 <option value="" disabled selected></option>
                                 <option value="solteiro">Solteiro(a)</option>
                                 <option value="casado">Casado(a)</option>
+                                <option value="uniao_estavel">União estável</option>
                                 <option value="divorciado">Divorciado(a)</option>
+                                <option value="separado">Separado(a)</option>
                                 <option value="viuvo">Viúvo(a)</option>
+                                <option value="prefere_nao_informar">Prefiro não informar</option>
+                                <option value="outro">Outro</option>
                             </select>
                             <label class="active" for="estado_civil">Estado civil</label>
+                        </div>
+                        <div class="input-group" id="estado_civil_esp_container"
+                            style="display: none; grid-column: span 2;">
+                            <input type="text" id="estado_civil_especifico" placeholder=" ">
+                            <label for="estado_civil_especifico">Especifique o estado civil</label>
+                        </div>
+                    </div>
+
+                    <div class="sub-section">
+                        <div class="photo-upload-section" style="margin-bottom: 0;">
+                            <h3 class="sub-title" style="margin-bottom: 8px;">Foto do Voluntário</h3>
+                            <p class="section-desc" style="margin-top:0; margin-bottom: 24px;">Envie uma foto nítida do
+                                rosto (tipo documento ou crachá)</p>
+
+                            <div class="photo-upload-container" id="photoUploadContainer">
+                                <input type="file" id="volunteerPhoto" accept="image/png, image/jpeg, image/jpg"
+                                    aria-label="Adicione uma foto sua" required class="photo-input">
+                                <div class="photo-preview-wrapper" id="photoPreviewWrapper">
+                                    <div class="photo-placeholder" id="photoPlaceholder">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="17 8 12 3 7 8"></polyline>
+                                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                                        </svg>
+                                        <span>Adicione uma<br>foto sua</span>
+                                    </div>
+                                    <img src="" alt="Preview da sua foto" id="photoPreviewImg" class="photo-preview-img"
+                                        style="display: none;">
+                                </div>
+                                <div class="photo-upload-actions" id="photoUploadActions" style="display: none;">
+                                    <button type="button" class="btn-link" id="btnChangePhoto">Alterar foto</button>
+                                    <button type="button" class="btn-link error" id="btnRemovePhoto">Remover</button>
+                                </div>
+                                <span class="photo-error-msg" id="photoErrorMsg" style="display: none;">Formato inválido
+                                    ou muito grande.</span>
+                            </div>
                         </div>
                     </div>
 
                     <div class="sub-section">
                         <h3 class="sub-title">Informações Médicas</h3>
-                        <div class="radio-group" style="margin-bottom: 24px;">
-                            <span class="radio-label">É doador de sangue?</span>
-                            <label><input type="radio" name="doador" value="sim" onchange="toggleBloodType(true)"
-                                    required> Sim</label>
-                            <label><input type="radio" name="doador" value="nao" onchange="toggleBloodType(false)">
-                                Não</label>
-                        </div>
-                        <div class="input-group select-group" id="bloodTypeContainer" style="display: none;">
-                            <select id="tipo_sanguineo">
+                        <div class="input-group select-group" id="bloodTypeContainer">
+                            <select id="tipo_sanguineo" required>
                                 <option value="" disabled selected></option>
                                 <option value="O+">O+</option>
                                 <option value="O-">O-</option>
@@ -150,39 +188,124 @@
                                 <option value="B-">B-</option>
                                 <option value="AB+">AB+</option>
                                 <option value="AB-">AB-</option>
+                                <option value="nao_sei">Não sei informar</option>
                             </select>
                             <label class="active" for="tipo_sanguineo">Tipo Sanguíneo</label>
+                        </div>
+                        <div class="radio-group" style="margin-top: 16px; margin-bottom: 24px;">
+                            <span class="radio-label">É doador de sangue?</span>
+                            <label><input type="radio" name="doador" value="sim" required> Sim</label>
+                            <label><input type="radio" name="doador" value="nao"> Não</label>
                         </div>
                     </div>
 
                     <div class="sub-section">
-                        <h3 class="sub-title">Documentação de Trânsito</h3>
+                        <h3 class="sub-title">Habilitação / CNH</h3>
                         <div class="radio-group" style="margin-bottom: 24px;">
-                            <span class="radio-label">Possui CNH?</span>
+                            <span class="radio-label">Possui alguma habilitação? (Terrestre, Náutica, Aérea,
+                                etc.)</span>
                             <label><input type="radio" name="has_cnh" value="sim" onchange="toggleCNH(true)" required>
                                 Sim</label>
                             <label><input type="radio" name="has_cnh" value="nao" onchange="toggleCNH(false)">
                                 Não</label>
                         </div>
-                        <div class="form-grid" id="cnhContainer" style="display: none;">
-                            <div class="input-group select-group">
-                                <select id="categoria_cnh">
-                                    <option value="" disabled selected></option>
-                                    <option value="A">A</option>
-                                    <option value="B">B</option>
-                                    <option value="AB">AB</option>
-                                    <option value="C">C</option>
-                                    <option value="D">D</option>
-                                    <option value="E">E</option>
-                                </select>
-                                <label class="active" for="categoria_cnh">Categoria</label>
+                        <div id="cnhContainer" style="display: none;">
+
+                            <div class="chip-group-section">
+                                <span class="chip-group-title" style="margin-bottom: 4px;">Habilitação Terrestre
+                                    (CNH)</span>
+                                <span
+                                    style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 12px;">Selecione
+                                    todas as categorias que possui na sua CNH.</span>
+                                <div class="chip-grid">
+                                    <label class="chip-item"><input type="checkbox" name="hab_terrestre" value="ACC"
+                                            class="hab-checkbox" data-cnh="true"><span
+                                            class="chip-text">ACC</span></label>
+                                    <label class="chip-item"><input type="checkbox" name="hab_terrestre" value="A"
+                                            class="hab-checkbox" data-cnh="true"><span
+                                            class="chip-text">A</span></label>
+                                    <label class="chip-item"><input type="checkbox" name="hab_terrestre" value="B"
+                                            class="hab-checkbox" data-cnh="true"><span
+                                            class="chip-text">B</span></label>
+                                    <label class="chip-item"><input type="checkbox" name="hab_terrestre" value="C"
+                                            class="hab-checkbox" data-cnh="true"><span
+                                            class="chip-text">C</span></label>
+                                    <label class="chip-item"><input type="checkbox" name="hab_terrestre" value="D"
+                                            class="hab-checkbox" data-cnh="true"><span
+                                            class="chip-text">D</span></label>
+                                    <label class="chip-item"><input type="checkbox" name="hab_terrestre" value="E"
+                                            class="hab-checkbox" data-cnh="true"><span
+                                            class="chip-text">E</span></label>
+                                </div>
+                                <div id="cnh-helper-msg"
+                                    style="display: none; font-size: 0.85rem; color: var(--primary-dark); margin-top: 12px; font-weight: 500; background: rgba(30, 58, 138, 0.05); padding: 8px 12px; border-radius: 6px; border-left: 3px solid var(--primary-blue);">
+                                    A categoria B foi selecionada automaticamente por ser requisito para categorias
+                                    avançadas.
+                                </div>
+
+                                <div class="input-group" id="numero_cnh_container"
+                                    style="display: none; margin-top: 16px; max-width: 320px;">
+                                    <input type="text" id="numero_cnh" placeholder=" ">
+                                    <label for="numero_cnh">Número da CNH</label>
+                                </div>
                             </div>
-                            <div class="input-group">
-                                <input type="text" id="numero_cnh" placeholder=" ">
-                                <label for="numero_cnh">Número CNH</label>
+
+                            <div class="chip-group-section">
+                                <span class="chip-group-title">Habilitação Náutica</span>
+                                <div class="chip-grid">
+                                    <label class="chip-item"><input type="checkbox" name="hab_nautica"
+                                            value="Arrais Amador" class="hab-checkbox"><span class="chip-text">Arrais
+                                            Amador</span></label>
+                                    <label class="chip-item"><input type="checkbox" name="hab_nautica"
+                                            value="Mestre Amador" class="hab-checkbox"><span class="chip-text">Mestre
+                                            Amador</span></label>
+                                    <label class="chip-item"><input type="checkbox" name="hab_nautica"
+                                            value="Capitão Amador" class="hab-checkbox"><span class="chip-text">Capitão
+                                            Amador</span></label>
+                                    <label class="chip-item"><input type="checkbox" name="hab_nautica" value="MAC"
+                                            class="hab-checkbox"><span class="chip-text">Marinheiro Auxiliar de Convés
+                                            (MAC)</span></label>
+                                    <label class="chip-item"><input type="checkbox" name="hab_nautica" value="MFC"
+                                            class="hab-checkbox"><span class="chip-text">Marinheiro Fluvial de Convés
+                                            (MFC)</span></label>
+                                    <label class="chip-item"><input type="checkbox" name="hab_nautica"
+                                            value="Piloto Fluvial" class="hab-checkbox"><span class="chip-text">Piloto
+                                            Fluvial</span></label>
+                                    <label class="chip-item"><input type="checkbox" name="hab_nautica"
+                                            value="Condutor Pequeno Porte" class="hab-checkbox"><span
+                                            class="chip-text">Condutor de Embarcação de Pequeno Porte</span></label>
+                                    <label class="chip-item"><input type="checkbox" name="hab_nautica"
+                                            value="Outro (Náutica)" class="hab-checkbox" data-outro="true"><span
+                                            class="chip-text">Outro (Náutica)</span></label>
+                                </div>
                             </div>
+
+                            <div class="chip-group-section" style="margin-bottom: 24px;">
+                                <span class="chip-group-title">Outras</span>
+                                <div class="chip-grid">
+                                    <label class="chip-item"><input type="checkbox" name="hab_outra"
+                                            value="Piloto de aviao" class="hab-checkbox"><span class="chip-text">Piloto
+                                            de avião</span></label>
+                                    <label class="chip-item"><input type="checkbox" name="hab_outra"
+                                            value="Operador de drone" class="hab-checkbox"><span
+                                            class="chip-text">Operador de drone</span></label>
+                                    <label class="chip-item"><input type="checkbox" name="hab_outra" value="Outro"
+                                            class="hab-checkbox" data-outro="true"><span
+                                            class="chip-text">Outro</span></label>
+                                </div>
+                            </div>
+
+                            <div class="form-grid" id="habDynamicFields">
+                                <div class="input-group" id="categoria_cnh_esp_container" style="display: none;">
+                                    <input type="text" id="categoria_cnh_especifico" placeholder=" ">
+                                    <label for="categoria_cnh_especifico">Especifique a habilitação</label>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
+
+
                 </div>
 
                 <!-- Section 2: Contato -->
@@ -230,34 +353,45 @@
 
                 <!-- Section 3: Atuação -->
                 <div class="form-card" id="card3">
-                    <h2 class="card-title">3. Atuação</h2>
+                    <h2 class="card-title">3. Atuação Profissional</h2>
                     <div class="form-grid">
                         <div class="input-group select-group">
                             <select id="escolaridade" required>
                                 <option value="" disabled selected></option>
-                                <option value="fundamental">Ensino Fundamental</option>
-                                <option value="medio">Ensino Médio</option>
-                                <option value="superior_inc">Ensino Superior Incompleto</option>
-                                <option value="superior_comp">Ensino Superior Completo</option>
-                                <option value="pos">Pós-graduação/Mestrado/Doutorado</option>
+                                <option value="fundamental_inc">Ensino fundamental incompleto</option>
+                                <option value="fundamental_comp">Ensino fundamental completo</option>
+                                <option value="medio_inc">Ensino médio incompleto</option>
+                                <option value="medio_comp">Ensino médio completo</option>
+                                <option value="tecnico">Ensino técnico</option>
+                                <option value="superior_inc">Ensino superior incompleto</option>
+                                <option value="superior_comp">Ensino superior completo</option>
+                                <option value="pos">Pós-graduação</option>
+                                <option value="mestrado">Mestrado</option>
+                                <option value="doutorado">Doutorado</option>
+                                <option value="pos_doutorado">Pós-doutorado</option>
                             </select>
-                            <label class="active" for="escolaridade">Escolaridade</label>
+                            <label class="active" for="escolaridade">Escolaridade / Especialização</label>
                         </div>
-                        <div class="input-group select-group">
-                            <select id="formacao" onchange="toggleFormacaoExtra(this.value)" required>
-                                <option value="" disabled selected></option>
-                                <option value="exatas">Exatas</option>
-                                <option value="humanas">Humanas</option>
-                                <option value="biologicas">Biológicas</option>
-                                <option value="saude">Saúde</option>
-                                <option value="outros">Outros</option>
-                            </select>
-                            <label class="active" for="formacao">Formação</label>
+
+                        <div class="combobox-field profession-combobox" style="position: relative;">
+                            <div class="input-group combobox">
+                                <input type="text" id="profissao-input" name="profissao" autocomplete="off"
+                                    placeholder=" " role="combobox" aria-autocomplete="list" aria-expanded="false"
+                                    aria-controls="profissao-listbox" aria-haspopup="listbox" required>
+                                <label for="profissao-input">Profissão</label>
+                                <button type="button" class="combobox-toggle" aria-label="Mostrar opções" tabindex="-1">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                            <ul id="profissao-listbox" class="combobox-list" role="listbox"></ul>
                         </div>
-                        <div class="input-group" id="formacaoEspecificaContainer"
-                            style="display: none; grid-column: span 2;">
-                            <input type="text" id="formacao_especifica" placeholder=" ">
-                            <label for="formacao_especifica">Especifique sua formação</label>
+
+                        <div class="input-group" id="profissao-outra-group" style="display: none; grid-column: span 2;">
+                            <input type="text" id="profissao-outra" name="profissao_outra" placeholder=" ">
+                            <label for="profissao-outra">Especifique a profissão</label>
                         </div>
 
                         <div class="input-group select-group">
@@ -274,8 +408,8 @@
                         </div>
 
                         <div class="input-group">
-                            <input type="text" id="profissao" required placeholder=" ">
-                            <label for="profissao">Profissão</label>
+                            <input type="text" id="area_atuacao" required placeholder=" ">
+                            <label for="area_atuacao">Área de atuação</label>
                         </div>
                     </div>
 
@@ -296,7 +430,7 @@
 
                 <!-- Section 4: Dados Complementares -->
                 <div class="form-card" id="card4">
-                    <h2 class="card-title">4. Dados Complementares</h2>
+                    <h2 class="card-title">4. Como você pode contribuir?</h2>
 
                     <div class="input-group" style="margin-bottom: 32px;">
                         <textarea id="motivo" required placeholder=" " rows="3"></textarea>
@@ -304,60 +438,40 @@
                     </div>
 
                     <div class="checkbox-section">
-                        <h3 class="sub-title">Áreas de Interesse</h3>
-                        <div class="checkbox-grid">
-                            <label class="checkbox-item"><input type="checkbox" name="area_interesse"
-                                    value="Assistência Social"> Assistência Social</label>
-                            <label class="checkbox-item"><input type="checkbox" name="area_interesse"
-                                    value="Direitos Humanos"> Direitos Humanos</label>
-                            <label class="checkbox-item"><input type="checkbox" name="area_interesse" value="Educação">
-                                Educação</label>
-                            <label class="checkbox-item"><input type="checkbox" name="area_interesse" value="Esportes">
-                                Esportes</label>
-                            <label class="checkbox-item"><input type="checkbox" name="area_interesse"
-                                    value="Meio Ambiente"> Meio Ambiente</label>
-                            <label class="checkbox-item"><input type="checkbox" name="area_interesse" value="Saúde">
-                                Saúde</label>
-                        </div>
-                    </div>
-
-                    <div class="checkbox-section">
-                        <h3 class="sub-title">Público Alvo Preferencial</h3>
-                        <div class="checkbox-grid">
-                            <label class="checkbox-item"><input type="checkbox" name="publico" value="Adolescentes">
-                                Adolescentes</label>
-                            <label class="checkbox-item"><input type="checkbox" name="publico" value="Adultos">
-                                Adultos</label>
-                            <label class="checkbox-item"><input type="checkbox" name="publico" value="Crianças">
-                                Crianças</label>
-                            <label class="checkbox-item"><input type="checkbox" name="publico" value="Idosos">
-                                Idosos</label>
-                            <label class="checkbox-item"><input type="checkbox" name="publico"
-                                    value="Pessoas com deficiência"> Pessoas com deficiência</label>
-                        </div>
-                    </div>
-
-                    <div class="checkbox-section">
                         <h3 class="sub-title">Atividades de Interesse</h3>
                         <div class="checkbox-grid large">
+                            <label class="checkbox-item"><input type="checkbox" name="atividades" value="Motorista">
+                                Motorista</label>
                             <label class="checkbox-item"><input type="checkbox" name="atividades"
-                                    value="Ações emergenciais"> Ações emergenciais</label>
+                                    value="Entrega de ajuda humanitária"> Entrega de ajuda humanitária</label>
                             <label class="checkbox-item"><input type="checkbox" name="atividades"
-                                    value="Apoio emocional"> Apoio emocional</label>
+                                    value="Apoio logístico"> Apoio logístico</label>
                             <label class="checkbox-item"><input type="checkbox" name="atividades"
-                                    value="Apoio jurídico"> Apoio jurídico</label>
-                            <label class="checkbox-item"><input type="checkbox" name="atividades"
-                                    value="Arrecadação de doações"> Arrecadação de doações</label>
-                            <label class="checkbox-item"><input type="checkbox" name="atividades"
-                                    value="Assistência social"> Assistência social</label>
+                                    value="Triagem e organização de materiais"> Triagem e organização de
+                                materiais</label>
                             <label class="checkbox-item"><input type="checkbox" name="atividades"
                                     value="Atendimento ao público"> Atendimento ao público</label>
                             <label class="checkbox-item"><input type="checkbox" name="atividades"
-                                    value="Comunicação social"> Comunicação social</label>
+                                    value="Apoio em abrigos"> Apoio em abrigos</label>
                             <label class="checkbox-item"><input type="checkbox" name="atividades"
-                                    value="Educação ambiental"> Educação ambiental</label>
+                                    value="Apoio em campanhas e ações comunitárias"> Apoio em campanhas e ações
+                                comunitárias</label>
+                            <label class="checkbox-item"><input type="checkbox" name="atividades" value="Cadastramento">
+                                Cadastramento</label>
+                            <label class="checkbox-item"><input type="checkbox" name="atividades"
+                                    value="Comunicação e orientação"> Comunicação e orientação</label>
+                            <label class="checkbox-item"><input type="checkbox" name="atividades"
+                                    value="Apoio em situações emergenciais"> Apoio em situações emergenciais</label>
                             <label class="checkbox-item"><input type="checkbox" name="atividades"
                                     value="Primeiros socorros"> Primeiros socorros</label>
+                            <label class="checkbox-item"><input type="checkbox" name="atividades"
+                                    value="Serviços gerais"> Serviços gerais</label>
+                            <label class="checkbox-item"><input type="checkbox" name="atividades" value="Outro"
+                                    onchange="toggleOutrosCheckboxPj(this, 'atividades_esp_container')"> Outro</label>
+                        </div>
+                        <div class="input-group" id="atividades_esp_container" style="display: none; margin-top: 16px;">
+                            <input type="text" id="atividades_especifica" placeholder=" ">
+                            <label for="atividades_especifica">Especifique outra atividade de interesse</label>
                         </div>
                     </div>
                 </div>
@@ -372,9 +486,25 @@
                     </div>
 
                     <div class="form-grid" style="margin-bottom: 24px;">
-                        <div class="input-group">
-                            <input type="number" id="horas_mensais" min="1" max="24" required placeholder=" ">
-                            <label for="horas_mensais">Horas mensais disponíveis (1 a 24)</label>
+                        <div class="input-group" style="grid-column: span 2;">
+                            <input type="number" id="horas_diarias" min="1" max="24" required placeholder=" ">
+                            <label for="horas_diarias">Horas disponíveis por dia</label>
+                        </div>
+                        <div class="radio-group"
+                            style="display: flex; flex-direction: column; justify-content: center;">
+                            <span class="radio-label">Disponível em feriados?</span>
+                            <div style="display: flex; gap: 16px; margin-top: 8px;">
+                                <label><input type="radio" name="feriados" value="sim" required> Sim</label>
+                                <label><input type="radio" name="feriados" value="nao"> Não</label>
+                            </div>
+                        </div>
+                        <div class="radio-group"
+                            style="display: flex; flex-direction: column; justify-content: center;">
+                            <span class="radio-label">Disponibilidade para viajar?</span>
+                            <div style="display: flex; gap: 16px; margin-top: 8px;">
+                                <label><input type="radio" name="viajar" value="sim" required> Sim</label>
+                                <label><input type="radio" name="viajar" value="nao"> Não</label>
+                            </div>
                         </div>
                     </div>
 
@@ -411,52 +541,27 @@
                     </div>
                 </div>
 
-                <!-- Section 6: Eixos de Atuação -->
-                <div class="form-card" id="card6">
-                    <h2 class="card-title">6. Eixos de Atuação</h2>
-                    <p class="section-desc">Selecione os eixos principais da Defesa Civil com os quais você tem maior
-                        afinidade:</p>
 
-                    <div class="checkbox-grid border-grid">
-                        <label class="checkbox-item card-check"><input type="checkbox" name="eixos"
-                                value="Acessibilidade"><span>Acessibilidade</span></label>
-                        <label class="checkbox-item card-check"><input type="checkbox" name="eixos"
-                                value="Assistência social"><span>Assistência social</span></label>
-                        <label class="checkbox-item card-check"><input type="checkbox" name="eixos"
-                                value="Ciência e tecnologia"><span>Ciência e tecnologia</span></label>
-                        <label class="checkbox-item card-check"><input type="checkbox" name="eixos"
-                                value="Direitos humanos"><span>Direitos humanos</span></label>
-                        <label class="checkbox-item card-check"><input type="checkbox" name="eixos"
-                                value="Educação"><span>Educação</span></label>
-                        <label class="checkbox-item card-check"><input type="checkbox" name="eixos"
-                                value="Esporte"><span>Esporte</span></label>
-                        <label class="checkbox-item card-check"><input type="checkbox" name="eixos"
-                                value="Meio ambiente"><span>Meio ambiente</span></label>
-                        <label class="checkbox-item card-check"><input type="checkbox" name="eixos"
-                                value="Saúde"><span>Saúde</span></label>
-                        <label class="checkbox-item card-check"><input type="checkbox" name="eixos"
-                                value="Segurança alimentar"><span>Segurança alimentar</span></label>
-                        <label class="checkbox-item card-check"><input type="checkbox" name="eixos"
-                                value="Turismo"><span>Turismo</span></label>
-                    </div>
-                </div>
 
                 <!-- LGPD Consent -->
                 <div class="form-card lgpd-card" style="margin-bottom: 80px; padding: 32px;">
                     <div class="lgpd-compact-header">
-                        <button type="button" class="btn-link lgpd-trigger" aria-haspopup="dialog" aria-expanded="false">Ler Termo de Consentimento – LGPD</button>
+                        <button type="button" class="btn-link lgpd-trigger" aria-haspopup="dialog"
+                            aria-expanded="false">Ler Termo de Consentimento – LGPD</button>
                     </div>
                     <div class="lgpd-checkbox-container">
                         <label class="checkbox-item lgpd-checkbox-label">
-                            <input type="checkbox" id="lgpd_consent_pf" name="lgpd_consent" required> 
-                            <span class="lgpd-checkbox-text">Declaro que li e concordo com o Termo de Consentimento e com o tratamento dos meus dados pessoais nos termos da LGPD.</span>
+                            <input type="checkbox" id="lgpd_consent_pf" name="lgpd_consent" required>
+                            <span class="lgpd-checkbox-text">Declaro que li e concordo com o Termo de Consentimento e
+                                com o tratamento dos meus dados pessoais nos termos da LGPD.</span>
                         </label>
                     </div>
                 </div>
 
             </form>
 
-            <form id="organizationForm" class="volunteer-form pj-form" onsubmit="event.preventDefault(); submitForm();" style="display: none; opacity: 0; pointer-events: none; position: absolute; top: 0; left: 0; width: 100%;">
+            <form id="organizationForm" class="volunteer-form pj-form" onsubmit="event.preventDefault(); submitForm();"
+                style="display: none; opacity: 0; pointer-events: none; position: absolute; top: 0; left: 0; width: 100%;">
                 <!-- Section 1: Dados da Organização -->
                 <div class="form-card pj-card">
                     <h2 class="card-title">1. Dados da Organização</h2>
@@ -474,7 +579,8 @@
                             <label for="cnpj">CNPJ</label>
                         </div>
                         <div class="input-group select-group">
-                            <select id="tipo_organizacao" required onchange="toggleOutrosInput(this, 'tipo_org_esp_container')">
+                            <select id="tipo_organizacao" required
+                                onchange="toggleOutrosInput(this, 'tipo_org_esp_container')">
                                 <option value="" disabled selected></option>
                                 <option value="empresa">Empresa</option>
                                 <option value="ong">ONG</option>
@@ -484,25 +590,30 @@
                             </select>
                             <label class="active" for="tipo_organizacao">Tipo</label>
                         </div>
-                        <div class="input-group" id="tipo_org_esp_container" style="display: none; grid-column: span 2;">
+                        <div class="input-group" id="tipo_org_esp_container"
+                            style="display: none; grid-column: span 2;">
                             <input type="text" id="tipo_org_especifico" placeholder=" ">
                             <label for="tipo_org_especifico">Especifique o tipo de organização</label>
                         </div>
-                        <div class="input-group select-group" style="grid-column: span 2;">
-                            <select id="area_atuacao_pj" required onchange="toggleOutrosInput(this, 'area_atuacao_esp_container')">
-                                <option value="" disabled selected></option>
-                                <option value="saude">Saúde</option>
-                                <option value="logistica">Logística</option>
-                                <option value="alimentacao">Alimentação</option>
-                                <option value="educacao">Educação</option>
-                                <option value="tecnologia">Tecnologia</option>
-                                <option value="meio_ambiente">Meio Ambiente</option>
-                                <option value="outros">Outros</option>
-                            </select>
-                            <label class="active" for="area_atuacao_pj">Área de atuação principal</label>
+                        <div class="combobox-field atuacao-combobox" style="position: relative; grid-column: span 2;">
+                            <div class="input-group combobox">
+                                <input type="text" id="area_atuacao_pj" name="area_atuacao_pj" autocomplete="off"
+                                    placeholder=" " role="combobox" aria-autocomplete="list" aria-expanded="false"
+                                    aria-controls="atuacao-listbox" aria-haspopup="listbox" required>
+                                <label for="area_atuacao_pj">Área de atuação principal</label>
+                                <button type="button" class="combobox-toggle" aria-label="Mostrar opções" tabindex="-1">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                            <ul id="atuacao-listbox" class="combobox-list" role="listbox"></ul>
                         </div>
-                        <div class="input-group" id="area_atuacao_esp_container" style="display: none; grid-column: span 2;">
-                            <input type="text" id="area_atuacao_especifica" placeholder=" ">
+                        <div class="input-group" id="area_atuacao_esp_container"
+                            style="display: none; grid-column: span 2;">
+                            <input type="text" id="area_atuacao_especifica" name="area_atuacao_especifica"
+                                placeholder=" ">
                             <label for="area_atuacao_especifica">Especifique a área de atuação</label>
                         </div>
                     </div>
@@ -571,14 +682,22 @@
                     <h2 class="card-title">4. Tipo de Apoio</h2>
                     <p class="section-desc">Como sua organização pode contribuir?</p>
                     <div class="checkbox-grid large">
-                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Doações"> Doações</label>
-                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Logística"> Logística</label>
-                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Transporte"> Transporte</label>
-                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Voluntários"> Voluntários</label>
-                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Financeiro"> Financeiro</label>
-                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Infraestrutura"> Infraestrutura</label>
-                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Serviços"> Serviços</label>
-                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Outros" onchange="toggleOutrosCheckboxPj(this, 'apoio_pj_esp_container')"> Outros</label>
+                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Doações">
+                            Doações</label>
+                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Logística">
+                            Logística</label>
+                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Transporte">
+                            Transporte</label>
+                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Voluntários">
+                            Voluntários</label>
+                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Financeiro">
+                            Financeiro</label>
+                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Infraestrutura">
+                            Infraestrutura</label>
+                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Serviços">
+                            Serviços</label>
+                        <label class="checkbox-item"><input type="checkbox" name="apoio_pj" value="Outros"
+                                onchange="toggleOutrosCheckboxPj(this, 'apoio_pj_esp_container')"> Outros</label>
                     </div>
                     <div class="input-group" id="apoio_pj_esp_container" style="display: none; margin-top: 16px;">
                         <input type="text" id="apoio_pj_especifico" placeholder=" ">
@@ -626,12 +745,14 @@
                 <!-- LGPD Consent -->
                 <div class="form-card lgpd-card" style="margin-bottom: 80px; padding: 32px;">
                     <div class="lgpd-compact-header">
-                        <button type="button" class="btn-link lgpd-trigger" aria-haspopup="dialog" aria-expanded="false">Ler Termo de Consentimento – LGPD</button>
+                        <button type="button" class="btn-link lgpd-trigger" aria-haspopup="dialog"
+                            aria-expanded="false">Ler Termo de Consentimento – LGPD</button>
                     </div>
                     <div class="lgpd-checkbox-container">
                         <label class="checkbox-item lgpd-checkbox-label">
-                            <input type="checkbox" id="lgpd_consent_pj" name="lgpd_consent" required> 
-                            <span class="lgpd-checkbox-text">Declaro que li e concordo com o Termo de Consentimento e com o tratamento dos meus dados pessoais nos termos da LGPD.</span>
+                            <input type="checkbox" id="lgpd_consent_pj" name="lgpd_consent" required>
+                            <span class="lgpd-checkbox-text">Declaro que li e concordo com o Termo de Consentimento e
+                                com o tratamento dos meus dados pessoais nos termos da LGPD.</span>
                         </label>
                     </div>
                 </div>
@@ -651,19 +772,26 @@
     </div>
 
     <!-- LGPD Modal -->
-    <div class="modal-overlay" id="lgpdModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="lgpdModalTitle">
+    <div class="modal-overlay" id="lgpdModal" aria-hidden="true" role="dialog" aria-modal="true"
+        aria-labelledby="lgpdModalTitle">
         <div class="modal-card">
             <button type="button" class="modal-close-btn" id="closeLgpdBtn" aria-label="Fechar modal">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
             </button>
             <h2 id="lgpdModalTitle">Termo de Consentimento – LGPD</h2>
             <div class="modal-content">
-                <p>Em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018 – LGPD), informamos que os dados pessoais fornecidos neste formulário serão utilizados para fins de cadastro, organização e eventual acionamento de voluntários em ações relacionadas à defesa civil, incluindo situações de emergência e apoio à população.</p>
-                <p>O tratamento dos dados será realizado com responsabilidade, segurança e respeito à sua privacidade, sendo utilizados exclusivamente para as finalidades aqui descritas.</p>
-                <p>Ao enviar este formulário, você declara estar ciente e de acordo com o tratamento dos seus dados pessoais nos termos da LGPD.</p>
+                <p>Em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018 – LGPD), informamos que os
+                    dados pessoais fornecidos neste formulário serão utilizados para fins de cadastro, organização e
+                    eventual acionamento de voluntários em ações relacionadas à defesa civil, incluindo situações de
+                    emergência e apoio à população.</p>
+                <p>O tratamento dos dados será realizado com responsabilidade, segurança e respeito à sua privacidade,
+                    sendo utilizados exclusivamente para as finalidades aqui descritas.</p>
+                <p>Ao enviar este formulário, você declara estar ciente e de acordo com o tratamento dos seus dados
+                    pessoais nos termos da LGPD.</p>
             </div>
         </div>
     </div>
